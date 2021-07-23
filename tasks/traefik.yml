@@ -1,9 +1,14 @@
 ---
 
 - name: traefik | pull traefik image
-  container.podman.podman_image:
+  containers.podman.podman_image:
     name: "{{ podman_traefik_uri }}"
     tag: "{{ podman_traefik_version }}"
     state: present
 
-- name: traefik
+- name: traefik | apply traefik config file
+  ansible.builtin.template:
+    src: traefik.yml
+    dest: "{{ podman_container_storage_path }}/traefik/traefik.yml"
+
+- name: traefik | start traefik

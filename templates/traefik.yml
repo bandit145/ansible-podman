@@ -1,0 +1,1 @@
+{{ podman_traefik_config | to_pretty_yaml }}

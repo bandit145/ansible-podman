@@ -20,3 +20,4 @@ podman_port_map:
 
 podman_traefik_version: latest
 podman_traefik_uri: docker.io/library/traefik
+podman_container_storage_path: /container_storage/

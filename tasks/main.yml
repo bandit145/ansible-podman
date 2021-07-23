@@ -33,7 +33,7 @@
     path: /run/podman/podman.sock
     owner: root
     group: podman
-    mode: 1770
+    mode: 0770
     state: file
 
 - name: main | create docker socket symlink
@@ -42,8 +42,16 @@
     dest: /run/docker.sock
     owner: root
     group: podman
-    mode: 1770
+    mode: 0770
     state: link
+
+- name: main | create container storage dir
+  file:
+    path: "{{ podman_container_storage_path }}"
+    owner: podman
+    group: podman
+    mode: 0770
+    state: directory
 
 - name: configure as podman user
   block:
