@@ -1,0 +1,12 @@
+---
+
+- name: Prepare
+  hosts: all
+  become: true
+  tasks:
+
+    - name: enable firewalld
+      service:
+        name: firewalld
+        enabled: true
+        state: started

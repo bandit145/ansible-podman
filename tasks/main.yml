@@ -1,2 +1,52 @@
 ---
 # tasks file for ansible-podman
+
+- name: main | create podman user/group
+  ansible.builtin.user:
+    name: podman
+    state: present
+
+- name: main | elevated ports to non elevated ports
+  ansible.posix.firewalld:
+    rich_rule: rule family={{ item.family }} forward-port port={{ item.low_port }} protocol={{ item.protocol }} to-port={{ item.high_port }}
+    permanent: true
+    immediate: true
+    state: enabled
+  loop: "{{ podman_port_map }}"
+
+# - name: main | open firewall ports
+#   ansible.posix.firewalld
+
+- name: main | install podman
+  ansible.builtin.yum:
+    name: podman
+    state: present
+
+- name: main | enable podman api
+  ansible.builtin.service:
+    name: podman.socket
+    state: started
+    enabled: true
+
+- name: main | chown podman socket
+  ansible.builtin.file:
+    path: /run/podman/podman.sock
+    owner: root
+    group: podman
+    mode: 1770
+    state: file
+
+- name: main | create docker socket symlink
+  ansible.builtin.file:
+    src: /run/podman/podman.sock
+    dest: /run/docker.sock
+    owner: root
+    group: podman
+    mode: 1770
+    state: link
+
+- name: configure as podman user
+  block:
+    - include_tasks: traefik.yml
+    - include_tasks: podman.yml
+  become_user: podman

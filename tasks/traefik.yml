@@ -1,0 +1,9 @@
+---
+
+- name: traefik | pull traefik image
+  container.podman.podman_image:
+    name: "{{ podman_traefik_uri }}"
+    tag: "{{ podman_traefik_version }}"
+    state: present
+
+- name: traefik

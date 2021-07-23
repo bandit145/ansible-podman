@@ -1,0 +1,6 @@
+ansible
+selinux
+python-vagrant
+molecule-vagrant != 0.63
+molecule
+jmespath

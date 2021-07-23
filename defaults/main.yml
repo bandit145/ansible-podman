@@ -1,2 +1,22 @@
 ---
 # defaults file for ansible-podman
+podman_port_map:
+  - low_port: 443
+    protocol: tcp
+    family: ipv4
+    high_port: 8443
+  - low_port: 443
+    protocol: tcp
+    family: ipv4
+    high_port: 8443
+  - low_port: 80
+    protocol: tcp
+    family: ipv6
+    high_port: 8080
+  - low_port: 80
+    protocol: tcp
+    family: ipv6
+    high_port: 8080
+
+podman_traefik_version: latest
+podman_traefik_uri: docker.io/library/traefik
